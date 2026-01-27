@@ -4,27 +4,27 @@ const db = require("../db");
    LOOKUP TABLE MAP
 ========================= */
 const LOOKUP_TABLES = {
-  religion: "religion_id",
-  education: "education_id",
-  dietary: "dietary_id",
-  drinking: "drinking_id",
-  smoking: "smoking_id",
-  workout: "workout_id",
-  language: "language_id",
-  interest: "interest_id",
-  lookingfor: "looking_for_id",
-  opento: "open_to_id",
-  lovestyle: "love_style_id",
-  personalitytype: "personality_type_id",
-  pet: "pet_id",
-  zodiac: "zodiac_id",
-  jobindustry: "industry_id",
-  communicationstyle: "communication_style_id",
-  familyplans: "family_plan_id",
-  sleepinghabit: "sleeping_habit_id",
-  subscriptiondetails: "plan_id",
-  reportreason: "reason_id",
-  gender: "gender_id"
+  religion: "id",
+  education: "id",
+  dietary: "id",
+  drinking: "id",
+  smoking: "id",
+  workout: "id",
+  language: "id",
+  interest: "id",
+  lookingfor: "id",
+  opento: "id",
+  lovestyle: "id",
+  personalitytype: "id",
+  pet: "id",
+  zodiac: "id",
+  jobindustry: "id",
+  communicationstyle: "id",
+  familyplans: "id",
+  sleepinghabit: "id",
+  subscriptiondetails: "id",
+  reportreason: "id",
+  gender: "id"
 };
 
 /* =================================================
