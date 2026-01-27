@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Lookups</title>
+
+  <link rel="stylesheet" href="./css/admin.css" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ===== MODERN GRID ===== */
+    .lookup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .lookup-card {
+      background: linear-gradient(135deg, #6a5cff, #7f8cff);
+      color: #fff;
+      padding: 30px;
+      border-radius: 18px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .lookup-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 85%;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 18px;
+      animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close {
+      font-size: 26px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .add-btn {
+      background: #6a5cff;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .badge-yes {
+      background: #d4f5e2;
+      color: #0f7a44;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .badge-no {
+      background: #ffd6d6;
+      color: #b40000;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    table input {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="admin-container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="users.html">Users</a>
+    <a href="manage-lookups.html" class="active">Lookups</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <h1>Lookup Management</h1>
+
+    <p style="color:#666; margin-top:5px;">
+      Control dropdown values used across the dating app
+    </p>
+
+    <div class="lookup-grid" id="lookupGrid">
+      <!-- auto-generated cards will appear here -->
+    </div>
+
+
+
+
+<!-- MODAL -->
+<div class="modal" id="lookupModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <span class="close" onclick="closeModal()">✖</span>
+    </div>
+
+    <button class="add-btn" onclick="addLookup()">➕ Add New</button>
+
+    <table width="100%" style="margin-top:20px;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="lookupTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="./js/manage-lookups.js"></script>
+
+<script>
+function logout() {
+  localStorage.removeItem("admin");
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel – Users</title>
+
+  <!-- Main Admin CSS -->
+  <link rel="stylesheet" href="./css/admin.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="admin-container">
+
+  <!-- ================= SIDEBAR (STANDARD) ================= -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+
+    <a href="dashboard.html">
+      <i class="fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="users.html" class="active">
+      <i class="fas fa-users"></i>
+      <span>Users</span>
+    </a>
+
+    <a href="lookups.html">
+      <i class="fas fa-database"></i>
+      <span>Lookups</span>
+    </a>
+
+    <a href="feedback.html">
+      <i class="fas fa-comment-dots"></i>
+      <span>Feedback</span>
+    </a>
+
+    <a href="reports.html">
+      <i class="fas fa-flag"></i>
+      <span>Reports</span>
+    </a>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="main-content">
+
+    <!-- ================= TOP BAR ================= -->
+    <div class="top-bar">
+      <span>Users Management</span>
+
+      <div class="profile">
+        <img src="./images/admin.jpeg" onclick="toggleMenu()" />
+
+        <div id="menu" class="menu">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="users.html">Users</a>
+          <a href="lookups.html">Lookups</a>
+          <a href="reports.html">Reports</a>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PAGE TITLE ================= -->
+    <h1 style="margin-bottom: 20px;">Users Management</h1>
+
+    <!-- ================= SEARCH ================= -->
+<div style="display:flex; gap:15px; margin-bottom:20px;">
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search by name or email..."
+    oninput="applyFilters()"
+    style="
+      width: 260px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    "
+  />
+
+  <select id="roleFilter" onchange="applyFilters()"
+    style="padding:10px; border-radius:10px;">
+    <option value="all">All Roles</option>
+    <option value="0">Users</option>
+    <option value="1">Admins</option>
+    <option value="2">Super Admins</option>
+  </select>
+
+  <select id="banFilter" onchange="applyFilters()"
+    style="padding:10px; border-radius:10px;">
+    <option value="all">All Status</option>
+    <option value="0">Active</option>
+    <option value="1">Banned</option>
+  </select>
+
+</div>
+
+
+
+    <!-- ================= USERS TABLE ================= -->
+    <table>
+      <thead>
+        <tr>
+          <th>UID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Ban</th>
+          <th>Admin Action</th>
+        </tr>
+      </thead>
+
+      <tbody id="usersTableBody">
+        <!-- Filled dynamically by users.js -->
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="./js/users.js"></script>
+
+<script>
+  function logout() {
+    localStorage.removeItem("admin");
+    window.location.href = "login.html";
+  }
+
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>

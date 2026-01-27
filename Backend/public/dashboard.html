@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="./css/admin.css" />
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+
+<body>
+
+<div class="admin-container">
+
+  <!-- ================= SIDEBAR (STANDARD) ================= -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+
+    <a href="dashboard.html" class="active">
+      <i class="fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="users.html">
+      <i class="fas fa-users"></i>
+      <span>Users</span>
+    </a>
+
+    <a href="lookups.html">
+      <i class="fas fa-database"></i>
+      <span>Lookups</span>
+    </a>
+
+    <a href="feedback.html">
+      <i class="fas fa-comment-dots"></i>
+      <span>Feedback</span>
+    </a>
+
+    <a href="reports.html">
+      <i class="fas fa-flag"></i>
+      <span>Reports</span>
+    </a>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="main-content">
+
+    <!-- ================= TOP BAR ================= -->
+    <div class="top-bar">
+      <span>Dashboard Overview</span>
+
+      <div class="profile">
+        <img src="./images/admin.jpeg" onclick="toggleMenu()" />
+
+        <div id="menu" class="menu">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="users.html">Users</a>
+          <a href="lookups.html">Lookups</a>
+          <a href="reports.html">Reports</a>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= DASHBOARD CARDS ================= -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Users</h3>
+        <p id="totalUsers">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Active Users</h3>
+        <p id="activeUsers">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Banned Users</h3>
+        <p id="bannedUsers">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Admins</h3>
+        <p id="adminUsers">0</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="./js/dashboard.js"></script>
+
+<script>
+  function logout() {
+    localStorage.removeItem("admin");
+    window.location.href = "login.html";
+  }
+
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>

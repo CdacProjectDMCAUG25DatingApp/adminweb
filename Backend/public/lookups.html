@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel – Lookups</title>
+
+  <!-- Main Admin CSS -->
+  <link rel="stylesheet" href="./css/admin.css" />
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+
+<body>
+
+<div class="admin-container">
+
+  <!-- ================= SIDEBAR (STANDARD) ================= -->
+  <div class="sidebar">
+    <h2>Admin</h2>
+
+    <a href="dashboard.html">
+      <i class="fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="users.html">
+      <i class="fas fa-users"></i>
+      <span>Users</span>
+    </a>
+
+    <a href="lookups.html" class="active">
+      <i class="fas fa-database"></i>
+      <span>Lookups</span>
+    </a>
+
+    <a href="feedback.html">
+      <i class="fas fa-comment-dots"></i>
+      <span>Feedback</span>
+    </a>
+
+    <a href="reports.html">
+      <i class="fas fa-flag"></i>
+      <span>Reports</span>
+    </a>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="main-content">
+
+    <!-- ================= TOP BAR ================= -->
+    <div class="top-bar">
+      <span>Lookup Management</span>
+
+      <div class="profile">
+        <img src="./images/admin.jpeg" onclick="toggleMenu()" />
+
+        <div id="menu" class="menu">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="users.html">Users</a>
+          <a href="lookups.html">Lookups</a>
+          <a href="reports.html">Reports</a>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PAGE TITLE ================= -->
+    <h1 style="margin-bottom: 20px;">Lookup Tables</h1>
+    <div id="manageBtn" style="margin-bottom: 15px;">
+      <a href="manage-lookups.html">
+        <button style="padding:10px 18px;border-radius:8px;">
+          Manage Lookups
+        </button>
+      </a>
+    </div>
+
+    <!-- ================= LOOKUP SELECT ================= -->
+    <div style="margin-bottom: 20px;">
+      <select
+  id="lookupSelect"
+  onchange="loadLookup()"
+  style="
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 260px;
+  "
+>
+  <option value="">-- Select Lookup --</option>
+
+  <!-- Core Profile -->
+  <option value="religion">Religion</option>
+  <option value="education">Education</option>
+  <option value="language">Language</option>
+  <option value="gender">Gender</option>
+  <option value="zodiac">Zodiac</option>
+
+  <!-- Lifestyle -->
+  <option value="smoking">Smoking</option>
+  <option value="drinking">Drinking</option>
+  <option value="dietary">Dietary</option>
+  <option value="workout">Workout</option>
+  <option value="sleepinghabit">Sleeping Habit</option>
+  <option value="pet">Pet Preference</option>
+
+  <!-- Personality / Dating -->
+  <option value="lovestyle">Love Style</option>
+  <option value="personalitytype">Personality Type</option>
+  <option value="communicationstyle">Communication Style</option>
+  <option value="lookingfor">Looking For</option>
+  <option value="opento">Open To</option>
+  <option value="familyplans">Family Plans</option>
+
+  <!-- Career -->
+  <option value="jobindustry">Job Industry</option>
+
+  <!-- App / System -->
+  <option value="interest">Interests</option>
+  <option value="subscriptiondetails">Subscription Plans</option>
+  <option value="reportreason">Report Reasons</option>
+</select>
+
+    <!-- ================= LOOKUP TABLE ================= -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody id="lookupTableBody">
+        <tr>
+          <td colspan="4" style="text-align:center; padding:20px;">
+            Select a lookup to view data
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="./js/lookups.js"></script>
+
+<script>
+  function logout() {
+    localStorage.removeItem("admin");
+    window.location.href = "login.html";
+  }
+
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>
