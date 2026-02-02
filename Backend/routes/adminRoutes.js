@@ -3,8 +3,10 @@ const router = express.Router();
 
 const adminController = require("../controllers/adminController");
 const lookupController = require("../controllers/lookupController");
-const reportController = require("../controllers/reportController"); // ✅ REQUIRED
-const adminAuth = require("../middleware/authMiddleware");
+const reportController = require("../controllers/reportController");
+
+const adminAuth = require("../middleware/adminAuth");
+const superAdmin = require("../middleware/superAdminAuth");
 
 /* AUTH */
 router.post("/login", adminController.adminLogin);
@@ -16,19 +18,22 @@ router.get("/dashboard-stats", adminAuth, adminController.getDashboardStats);
 router.get("/users", adminAuth, adminController.getAllUsers);
 router.get("/users/search", adminAuth, adminController.searchUsers);
 router.post("/ban-user", adminAuth, adminController.toggleBanUser);
-router.post("/make-admin", adminAuth, adminController.makeAdmin);
-router.post("/remove-admin", adminAuth, adminController.removeAdmin);
+router.post("/make-admin", superAdmin, adminController.makeAdmin);
+router.post("/remove-admin", superAdmin, adminController.removeAdmin);
 
-/* LOOKUPS */
+/* LOOKUPS (super admin only) */
 router.get("/lookups/:table", adminAuth, lookupController.getLookupData);
-router.post("/lookups/add", adminAuth, lookupController.addLookup);
-router.post("/lookups/update", adminAuth, lookupController.updateLookup);
-router.post("/lookups/toggle", adminAuth, lookupController.toggleLookupStatus);
+router.post("/lookups/add", superAdmin, lookupController.addLookup);
+router.post("/lookups/update", superAdmin, lookupController.updateLookup);
+router.post("/lookups/toggle", superAdmin, lookupController.toggleLookupStatus);
 
-/* FEEDBACK ✅ */
+/* FEEDBACK */
 router.get("/feedback", adminAuth, adminController.getFeedback);
 
-/* REPORTS ✅ */
+/* REPORTS */
 router.get("/reports", adminAuth, reportController.getAllReports);
+router.post("/reports/review", adminAuth, reportController.markInReview);
+router.post("/reports/resolve", adminAuth, reportController.markResolved);
+router.get("/reports/user/:uid", adminAuth, reportController.getUserModerationProfile);
 
 module.exports = router;

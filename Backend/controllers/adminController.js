@@ -1,5 +1,7 @@
+const jwt = require("jsonwebtoken");
 const db = require("../db");
 const bcrypt = require("bcryptjs");
+const config = require("../config");
 
 /* =========================
    ADMIN LOGIN
@@ -24,8 +26,19 @@ exports.adminLogin = (req, res) => {
     if (!isMatch)
       return res.status(401).json({ message: "Invalid password" });
 
+    // 🔥 CREATE JWT TOKEN
+    const token = jwt.sign(
+      {
+        uid: admin.uid,
+        role: admin.isAdmin // 1 = Admin, 2 = Super Admin
+      },
+      config.SECRET,
+      { expiresIn: "2d" }
+    );
+
     res.json({
       message: "Admin login successful",
+      token,
       admin: {
         uid: admin.uid,
         name: admin.user_name,

@@ -18,9 +18,9 @@
 
 <div class="admin-container">
 
-  <!-- ================= SIDEBAR (STANDARD) ================= -->
-  <div class="sidebar">
-    <h2>Admin</h2>
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <h2 id="adminName">Admin</h2>
 
     <a href="dashboard.html">
       <i class="fas fa-chart-line"></i>
@@ -48,83 +48,80 @@
     </a>
 
     <button onclick="logout()">Logout</button>
-  </div>
+  </aside>
 
   <!-- ================= MAIN CONTENT ================= -->
-  <div class="main-content">
+  <main class="main-content">
 
-    <!-- ================= TOP BAR ================= -->
-    <div class="top-bar">
+    <!-- TOP BAR -->
+    <header class="top-bar">
       <span>Lookup Management</span>
 
       <div class="profile">
-        <img src="./images/admin.jpeg" onclick="toggleMenu()" />
+        <img src="./images/admin.jpeg" alt="Admin" onclick="toggleMenu()" />
 
         <div id="menu" class="menu">
           <a href="dashboard.html">Dashboard</a>
           <a href="users.html">Users</a>
           <a href="lookups.html">Lookups</a>
+          <a href="feedback.html">Feedback</a>
           <a href="reports.html">Reports</a>
           <button onclick="logout()">Logout</button>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- ================= PAGE TITLE ================= -->
-    <h1 style="margin-bottom: 20px;">Lookup Tables</h1>
-    <div id="manageBtn" style="margin-bottom: 15px;">
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Lookup Tables</h1>
+
+    <!-- MANAGE LOOKUPS BUTTON -->
+    <div id="manageBtn" class="manage-btn">
       <a href="manage-lookups.html">
-        <button style="padding:10px 18px;border-radius:8px;">
-          Manage Lookups
-        </button>
+        <button class="primary-btn">Manage Lookups</button>
       </a>
     </div>
 
     <!-- ================= LOOKUP SELECT ================= -->
-    <div style="margin-bottom: 20px;">
+    <div class="lookup-select-box">
       <select
-  id="lookupSelect"
-  onchange="loadLookup()"
-  style="
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    width: 260px;
-  "
->
-  <option value="">-- Select Lookup --</option>
+        id="lookupSelect"
+        onchange="loadLookup()"
+        class="lookup-dropdown"
+      >
+        <option value="">-- Select Lookup --</option>
 
-  <!-- Core Profile -->
-  <option value="religion">Religion</option>
-  <option value="education">Education</option>
-  <option value="language">Language</option>
-  <option value="gender">Gender</option>
-  <option value="zodiac">Zodiac</option>
+        <!-- Core Profile -->
+        <option value="religion">Religion</option>
+        <option value="education">Education</option>
+        <option value="language">Language</option>
+        <option value="gender">Gender</option>
+        <option value="zodiac">Zodiac</option>
 
-  <!-- Lifestyle -->
-  <option value="smoking">Smoking</option>
-  <option value="drinking">Drinking</option>
-  <option value="dietary">Dietary</option>
-  <option value="workout">Workout</option>
-  <option value="sleepinghabit">Sleeping Habit</option>
-  <option value="pet">Pet Preference</option>
+        <!-- Lifestyle -->
+        <option value="smoking">Smoking</option>
+        <option value="drinking">Drinking</option>
+        <option value="dietary">Dietary</option>
+        <option value="workout">Workout</option>
+        <option value="sleepinghabit">Sleeping Habit</option>
+        <option value="pet">Pet Preference</option>
 
-  <!-- Personality / Dating -->
-  <option value="lovestyle">Love Style</option>
-  <option value="personalitytype">Personality Type</option>
-  <option value="communicationstyle">Communication Style</option>
-  <option value="lookingfor">Looking For</option>
-  <option value="opento">Open To</option>
-  <option value="familyplans">Family Plans</option>
+        <!-- Personality / Dating -->
+        <option value="lovestyle">Love Style</option>
+        <option value="personalitytype">Personality Type</option>
+        <option value="communicationstyle">Communication Style</option>
+        <option value="lookingfor">Looking For</option>
+        <option value="opento">Open To</option>
+        <option value="familyplans">Family Plans</option>
 
-  <!-- Career -->
-  <option value="jobindustry">Job Industry</option>
+        <!-- Career -->
+        <option value="jobindustry">Job Industry</option>
 
-  <!-- App / System -->
-  <option value="interest">Interests</option>
-  <option value="subscriptiondetails">Subscription Plans</option>
-  <option value="reportreason">Report Reasons</option>
-</select>
+        <!-- App / System -->
+        <option value="interest">Interests</option>
+        <option value="subscriptiondetails">Subscription Plans</option>
+        <option value="reportreason">Report Reasons</option>
+      </select>
+    </div>
 
     <!-- ================= LOOKUP TABLE ================= -->
     <table>
@@ -146,7 +143,7 @@
       </tbody>
     </table>
 
-  </div>
+  </main>
 </div>
 
 <!-- ================= SCRIPTS ================= -->
@@ -155,12 +152,22 @@
 <script>
   function logout() {
     localStorage.removeItem("admin");
+    localStorage.removeItem("adminToken");
     window.location.href = "login.html";
   }
 
   function toggleMenu() {
     const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
+    menu.style.display =
+      menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+  <script>
+  const adminInfo = JSON.parse(localStorage.getItem("admin"));
+
+  if (adminInfo) {
+    document.getElementById("adminName").textContent =
+      `Welcome Admin \n ${adminInfo.name}` || "Admin";
   }
 </script>
 

@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <title>Admin Login</title>
 
+  <!-- Styles -->
   <link rel="stylesheet" href="./css/admin.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     body {
@@ -13,13 +15,14 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      background: #f5f6fa;
     }
 
     .login-box {
       background: white;
       padding: 40px;
-      border-radius: 22px;
       width: 360px;
+      border-radius: 22px;
       box-shadow: 0 30px 70px rgba(0,0,0,0.15);
       animation: fadeSlide 0.6s ease both;
     }
@@ -28,6 +31,7 @@
       text-align: center;
       margin-bottom: 25px;
       font-weight: 700;
+      color: #333;
     }
 
     .login-box input {
@@ -37,6 +41,12 @@
       border-radius: 12px;
       border: 1px solid #ccc;
       font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+
+    .login-box input:focus {
+      border-color: #6a11cb;
     }
 
     .login-box button {
@@ -48,7 +58,7 @@
       color: white;
       font-size: 15px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease;
     }
 
     .login-box button:hover {
@@ -63,18 +73,7 @@
     }
   </style>
 </head>
-<script>
-  // Completely disable focus on non-input elements
-  document.addEventListener("focusin", (e) => {
-    const tag = e.target.tagName.toLowerCase();
-    if (tag !== "input" && tag !== "textarea") {
-      e.target.blur();
-    }
-  });
 
-  // Prevent body from holding focus
-  document.body.setAttribute("tabindex", "-1");
-</script>
 <body>
 
   <div class="login-box">
@@ -91,26 +90,48 @@
   </div>
 
 <script>
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+async function login() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  fetch("http://localhost:5000/admin/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("Invalid login");
-    return res.json();
-  })
-  .then(data => {
-    localStorage.setItem("admin", JSON.stringify(data));
+  if (!email || !password) {
+    alert("Please enter both email and password");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    if (!res.ok) {
+      throw new Error("Invalid login");
+    }
+
+    const data = await res.json();
+
+    // ✔ Store JWT + admin object
+    localStorage.setItem("adminToken", data.token);
+    localStorage.setItem("admin", JSON.stringify(data.admin));
+
     window.location.href = "dashboard.html";
-  })
-  .catch(() => alert("Invalid admin credentials"));
+
+  } catch (err) {
+    alert("Invalid admin credentials");
+  }
 }
 </script>
+  <script>
+  const adminInfo = JSON.parse(localStorage.getItem("admin"));
+
+  if (adminInfo) {
+    document.getElementById("adminName").textContent =
+      `Welcome Admin \n ${adminInfo.name}` || "Admin";
+  }
+</script>
+
 
 </body>
 </html>

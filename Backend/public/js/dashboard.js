@@ -1,18 +1,19 @@
-const stored = JSON.parse(localStorage.getItem("admin"));
+// =========================
+// AUTH CHECK
+// =========================
+const token = localStorage.getItem("adminToken");
+const admin = JSON.parse(localStorage.getItem("admin"));
 
-if (!stored) {
+if (!token || !admin) {
   alert("Not logged in");
   window.location.href = "login.html";
 }
 
-/* ✅ NORMALIZE ADMIN OBJECT */
-const admin = stored.admin ? stored.admin : stored;
-
-/* ================= LOAD DASHBOARD ================= */
+// =========================
+// LOAD DASHBOARD
+// =========================
 fetch("http://localhost:5000/admin/dashboard-stats", {
-  headers: {
-    "x-admin": JSON.stringify(admin)
-  }
+  headers: { token }
 })
   .then(res => res.json())
   .then(data => {
@@ -21,6 +22,4 @@ fetch("http://localhost:5000/admin/dashboard-stats", {
     document.getElementById("bannedUsers").innerText = data.bannedUsers || 0;
     document.getElementById("adminUsers").innerText = data.adminUsers || 0;
   })
-  .catch(err => {
-    console.error("Dashboard error:", err);
-  });
+  .catch(err => console.error("Dashboard error:", err));

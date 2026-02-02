@@ -1,10 +1,10 @@
 /****************************
- * AUTH
+ * AUTH CHECK
  ****************************/
-const stored = JSON.parse(localStorage.getItem("admin"));
-const admin = stored?.admin ? stored.admin : stored;
+const token = localStorage.getItem("adminToken");
+const admin = JSON.parse(localStorage.getItem("admin"));
 
-if (!admin) {
+if (!token || !admin) {
   alert("Not logged in");
   window.location.href = "login.html";
 }
@@ -27,15 +27,12 @@ function loadLookup() {
   const tbody = document.getElementById("lookupTableBody");
 
   if (!table) {
-    tbody.innerHTML =
-      "<tr><td colspan='4'>Select a lookup</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='4'>Select a lookup</td></tr>";
     return;
   }
 
   fetch(`http://localhost:5000/admin/lookups/${table}`, {
-    headers: {
-      "x-admin": JSON.stringify(admin)
-    }
+    headers: { token }
   })
     .then(res => {
       if (!res.ok) throw new Error("Unauthorized");
@@ -45,8 +42,7 @@ function loadLookup() {
       tbody.innerHTML = "";
 
       if (!Array.isArray(data) || data.length === 0) {
-        tbody.innerHTML =
-          "<tr><td colspan='4'>No data found</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='4'>No data found</td></tr>";
         return;
       }
 
@@ -68,7 +64,6 @@ function loadLookup() {
       });
     })
     .catch(() => {
-      tbody.innerHTML =
-        "<tr><td colspan='4'>Error loading data</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='4'>Error loading data</td></tr>";
     });
 }

@@ -1,17 +1,16 @@
 /****************************
- * AUTH CHECK (SUPER ADMIN ONLY)
+ * SUPER ADMIN AUTH CHECK
  ****************************/
-const storedAdmin = JSON.parse(localStorage.getItem("admin"));
-const admin = storedAdmin?.admin ? storedAdmin.admin : storedAdmin;
+const token = localStorage.getItem("adminToken");
+const admin = JSON.parse(localStorage.getItem("admin"));
 
-if (!admin || admin.isAdmin !== 2) {
+if (!token || !admin || admin.isAdmin !== 2) {
   alert("Access denied");
   window.location.href = "lookups.html";
 }
 
 /****************************
  * LOOKUP MASTER LIST
- * (single source of truth)
  ****************************/
 const LOOKUP_TYPES = [
   { key: "religion", label: "Religion" },
@@ -46,7 +45,7 @@ const LOOKUP_TYPES = [
 let currentLookupType = null;
 
 /****************************
- * AUTO GENERATE LOOKUP CARDS
+ * RENDER LOOKUP CARDS
  ****************************/
 function renderLookupCards() {
   const grid = document.getElementById("lookupGrid");
@@ -94,9 +93,7 @@ function loadManageTable() {
     "<tr><td colspan='5' style='text-align:center'>Loading...</td></tr>";
 
   fetch(`http://localhost:5000/admin/lookups/${currentLookupType}`, {
-    headers: {
-      "x-admin": JSON.stringify(admin)
-    }
+    headers: { token }
   })
     .then(res => res.json())
     .then(data => {
@@ -114,10 +111,8 @@ function loadManageTable() {
             <td>${row.id}</td>
             <td>${row.type_code}</td>
             <td>
-              <input
-                value="${row.name}"
-                onchange="updateName(${row.id}, this.value)"
-              />
+              <input value="${row.name}"
+                     onchange="updateName(${row.id}, this.value)" />
             </td>
             <td>${row.active == 1 ? "Active" : "Inactive"}</td>
             <td>
@@ -137,7 +132,6 @@ function loadManageTable() {
 
 /****************************
  * TOGGLE ACTIVE / INACTIVE
- * (SOFT DELETE / RESTORE)
  ****************************/
 function toggleStatus(id) {
   if (!confirm("Change status of this value?")) return;
@@ -146,7 +140,7 @@ function toggleStatus(id) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-admin": JSON.stringify(admin)
+      token
     },
     body: JSON.stringify({
       table: currentLookupType,
@@ -159,13 +153,13 @@ function toggleStatus(id) {
  * UPDATE LOOKUP NAME
  ****************************/
 function updateName(id, name) {
-  if (!name) return;
+  if (!name.trim()) return;
 
   fetch("http://localhost:5000/admin/lookups/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-admin": JSON.stringify(admin)
+      token
     },
     body: JSON.stringify({
       table: currentLookupType,
@@ -190,7 +184,7 @@ function addLookup() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-admin": JSON.stringify(admin)
+      token
     },
     body: JSON.stringify({
       table: currentLookupType,

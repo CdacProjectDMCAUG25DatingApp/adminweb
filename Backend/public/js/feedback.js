@@ -1,25 +1,29 @@
-const storedAdmin = JSON.parse(localStorage.getItem("admin"));
+// =========================
+// AUTH CHECK
+// =========================
+const token = localStorage.getItem("adminToken");
+const admin = JSON.parse(localStorage.getItem("admin"));
 
-if (!storedAdmin) {
+if (!token || !admin) {
   alert("Not logged in");
   window.location.href = "login.html";
 }
 
-const admin = storedAdmin.admin ? storedAdmin.admin : storedAdmin;
-
-/* ================= LOAD FEEDBACK ================= */
+// =========================
+// LOAD FEEDBACK
+// =========================
 function loadFeedback() {
   fetch("http://localhost:5000/admin/feedback", {
-    headers: {
-      "x-admin": JSON.stringify(admin)
-    }
+    headers: { token }
   })
     .then(res => res.json())
     .then(renderFeedback)
-    .catch(err => console.error(err));
+    .catch(err => console.error("Feedback load error:", err));
 }
 
-/* ================= RENDER FEEDBACK ================= */
+// =========================
+// RENDER FEEDBACK
+// =========================
 function renderFeedback(list) {
   const tbody = document.getElementById("feedbackTableBody");
   tbody.innerHTML = "";
@@ -56,5 +60,7 @@ function renderFeedback(list) {
   });
 }
 
-/* ================= INIT ================= */
+// =========================
+// INIT
+// =========================
 loadFeedback();

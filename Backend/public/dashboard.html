@@ -18,9 +18,9 @@
 
 <div class="admin-container">
 
-  <!-- ================= SIDEBAR (STANDARD) ================= -->
-  <div class="sidebar">
-    <h2>Admin</h2>
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <h2 id="adminName">Admin</h2>
 
     <a href="dashboard.html" class="active">
       <i class="fas fa-chart-line"></i>
@@ -48,30 +48,22 @@
     </a>
 
     <button onclick="logout()">Logout</button>
-  </div>
+  </aside>
 
   <!-- ================= MAIN CONTENT ================= -->
-  <div class="main-content">
+  <main class="main-content">
 
     <!-- ================= TOP BAR ================= -->
-    <div class="top-bar">
+    <header class="top-bar">
       <span>Dashboard Overview</span>
 
       <div class="profile">
-        <img src="./images/admin.jpeg" onclick="toggleMenu()" />
-
-        <div id="menu" class="menu">
-          <a href="dashboard.html">Dashboard</a>
-          <a href="users.html">Users</a>
-          <a href="lookups.html">Lookups</a>
-          <a href="reports.html">Reports</a>
-          <button onclick="logout()">Logout</button>
-        </div>
+        <img src="./images/admin.jpeg" alt="Admin" />
       </div>
-    </div>
+    </header>
 
     <!-- ================= DASHBOARD CARDS ================= -->
-    <div class="cards">
+    <section class="cards">
 
       <div class="card">
         <h3>Total Users</h3>
@@ -93,9 +85,9 @@
         <p id="adminUsers">0</p>
       </div>
 
-    </div>
+    </section>
 
-  </div>
+  </main>
 </div>
 
 <!-- ================= SCRIPTS ================= -->
@@ -104,6 +96,7 @@
 <script>
   function logout() {
     localStorage.removeItem("admin");
+    localStorage.removeItem("adminToken");
     window.location.href = "login.html";
   }
 
@@ -112,6 +105,13 @@
     menu.style.display = menu.style.display === "block" ? "none" : "block";
   }
 </script>
+  <script>
+  const adminInfo = JSON.parse(localStorage.getItem("admin"));
 
+  if (adminInfo) {
+    document.getElementById("adminName").textContent =
+      `Welcome Admin \n ${adminInfo.name}` || "Admin";
+  }
+</script>
 </body>
 </html>
